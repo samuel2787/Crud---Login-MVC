@@ -155,9 +155,13 @@ El enunciado menciona md5 como ejemplo, pero md5 es muy débil y ya no se usa pa
 
 ## Video de demostración
 
-[Ver video](PEGA-AQUI-EL-LINK-DE-LOOM-O-YOUTUBE)
+[Ver video](https://youtu.be/l7Z23do_qoU)
 
 En el video se muestra el funcionamiento del login, que no se puede entrar a la zona protegida sin iniciar sesión y las contraseñas encriptadas en la base de datos.
+
+# Repositorio de Github
+
+https://github.com/samuel2787/Crud---Login-MVC
 
 ## Autor
 
