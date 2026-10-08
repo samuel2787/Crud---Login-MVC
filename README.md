@@ -1,58 +1,164 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CRUD de Productos con Login (Laravel + Vue.js)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicación web sencilla hecha con el patrón MVC. Tiene un sistema de login y un CRUD de productos que solo se puede usar si estás logueado. Si alguien intenta entrar a las URLs protegidas sin iniciar sesión, el servidor no lo deja pasar.
 
-## About Laravel
+## Qué hace
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Registro de usuarios y login con correo y contraseña
+- Las contraseñas se guardan encriptadas con bcrypt (nunca en texto normal)
+- CRUD de productos: crear, ver, editar y eliminar
+- Las rutas de productos están protegidas: sin sesión no se puede acceder
+- Cerrar sesión
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tecnologías
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend:** Laravel (PHP)
+- **Frontend:** Vue.js 3 con Vite
+- **Base de datos:** MySQL
+- **Peticiones al servidor:** axios
+- **Entorno local:** Laragon
 
-## Learning Laravel
+## Cómo se aplica el MVC
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Parte | Dónde está | Qué hace |
+|-------|-----------|----------|
+| Modelo | `app/Models/` | `User.php` y `Product.php`, representan los datos de las tablas |
+| Vista | `resources/js/` | Componentes de Vue (`Login.vue`, `Productos.vue`) |
+| Controlador | `app/Http/Controllers/` | `AuthController.php` (login) y `ProductController.php` (CRUD) |
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Las rutas están en `routes/web.php` y conectan cada URL con su controlador.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Estructura del proyecto
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+Crud + Login MVC/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── AuthController.php
+│   │   └── ProductController.php
+│   └── Models/
+│       ├── User.php
+│       └── Product.php
+├── database/migrations/
+├── routes/web.php
+└── resources/
+    ├── views/app.blade.php
+    ├── css/app.css
+    └── js/
+        ├── app.js
+        ├── App.vue
+        └── components/
+            ├── Login.vue
+            └── Productos.vue
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Cómo correrlo
 
-## Contributing
+Necesitas tener instalado PHP, Composer, Node.js y MySQL. La forma más fácil en Windows es instalar [Laragon](https://laragon.org/), que ya trae PHP, MySQL y Composer.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Clonar el repositorio
 
-## Code of Conduct
+```bash
+git clone URL-DE-TU-REPO
+cd NOMBRE-DE-LA-CARPETA
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2. Instalar las dependencias
 
-## Security Vulnerabilities
+```bash
+composer install
+npm install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3. Configurar el .env
 
-## License
+Copia el archivo de ejemplo:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+copy .env.example .env
+```
+
+(En Mac o Linux es `cp .env.example .env`).
+
+Abre el `.env` y deja la parte de la base de datos así:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=crud_login
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Luego genera la clave de la aplicación:
+
+```bash
+php artisan key:generate
+```
+
+### 4. Crear la base de datos
+
+Con MySQL corriendo, crea una base de datos vacía llamada `crud_login` (en Laragon se puede con HeidiSQL). Después crea las tablas:
+
+```bash
+php artisan migrate
+```
+
+### 5. Levantar el proyecto
+
+Se necesitan dos terminales abiertas al mismo tiempo.
+
+Terminal 1 (backend):
+
+```bash
+php artisan serve
+```
+
+Terminal 2 (frontend):
+
+```bash
+npm run dev
+```
+
+Abre `http://localhost:8000` en el navegador.
+
+### 6. Probarlo
+
+1. Como la base empieza vacía, primero llena nombre, correo y contraseña y dale a **Registrarme**.
+2. Luego dale a **Entrar**.
+3. Ya puedes crear, editar y eliminar productos.
+
+## Rutas del backend
+
+| Método | Ruta | Descripción | Protegida |
+|--------|------|-------------|-----------|
+| POST | `/auth/register` | Crear usuario | No |
+| POST | `/auth/login` | Iniciar sesión | No |
+| POST | `/auth/logout` | Cerrar sesión | No |
+| GET | `/auth/me` | Ver si hay sesión activa | No |
+| GET | `/api/products` | Listar productos | Sí |
+| POST | `/api/products` | Crear producto | Sí |
+| PUT | `/api/products/{id}` | Editar producto | Sí |
+| DELETE | `/api/products/{id}` | Eliminar producto | Sí |
+
+## Cómo funciona el login
+
+1. El usuario manda su correo y contraseña a `/auth/login`.
+2. Laravel busca el usuario y compara la contraseña con la encriptada que está en la base (`Auth::attempt`).
+3. Si coincide, Laravel guarda la sesión del usuario.
+4. Las rutas protegidas usan el middleware `auth`, que revisa esa sesión en cada petición. Si no hay sesión, responde `Unauthenticated` (o manda a `/login` si es una página).
+
+## Sobre la encriptación
+
+El enunciado menciona md5 como ejemplo, pero md5 es muy débil y ya no se usa para guardar contraseñas. Por eso usamos **bcrypt** con `Hash::make`, que es lo que trae Laravel. Bcrypt le agrega un "salt" a cada contraseña y es lento a propósito, así es más difícil de romper por fuerza bruta.
+
+## Video de demostración
+
+[Ver video](PEGA-AQUI-EL-LINK-DE-LOOM-O-YOUTUBE)
+
+En el video se muestra el funcionamiento del login, que no se puede entrar a la zona protegida sin iniciar sesión y las contraseñas encriptadas en la base de datos.
+
+## Autor
+
+Samuel Chalá, estudiante de Ingeniería en Software en la UDLA.
