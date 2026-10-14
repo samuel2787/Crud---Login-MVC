@@ -30,7 +30,8 @@ h3 {
   margin: 60px auto;
 }
 
-.login input {
+.login input,
+.login select {
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 10px;
@@ -41,7 +42,8 @@ h3 {
 }
 
 /* inputs y botones */
-input {
+input,
+select {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;

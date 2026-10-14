@@ -7,6 +7,7 @@ const emit = defineEmits(['login'])
 const name = ref('')
 const email = ref('')
 const password = ref('')
+const role = ref('cliente')
 const mensaje = ref('')
 
 async function entrar() {
@@ -24,6 +25,7 @@ async function registrar() {
       name: name.value,
       email: email.value,
       password: password.value,
+      role: role.value,
     })
     mensaje.value = 'Usuario creado, ahora inicia sesión'
   } catch (e) {
@@ -38,6 +40,10 @@ async function registrar() {
     <input v-model="name" placeholder="Nombre (solo para registrarse)" />
     <input v-model="email" placeholder="Correo" />
     <input v-model="password" type="password" placeholder="Contraseña" />
+    <select v-model="role">
+      <option value="cliente">Cliente</option>
+      <option value="admin">Administrador</option>
+    </select>
     <button @click="entrar">Entrar</button>
     <button class="secundario" @click="registrar">Registrarme</button>
     <p class="mensaje">{{ mensaje }}</p>

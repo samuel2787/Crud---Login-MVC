@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-const emit = defineEmits(['logout'])
+const emit = defineEmits(['logout', 'comisiones'])
 
 const productos = ref([])
 const name = ref('')
@@ -61,8 +61,11 @@ async function salir() {
 <template>
   <div class="contenedor">
     <div class="encabezado">
-      <h2>Productos</h2>
-      <button class="secundario" @click="salir">Cerrar sesión</button>
+      <h2>Panel de administrador</h2>
+      <div>
+        <button class="secundario" @click="emit('comisiones')">Ver comisiones</button>
+        <button class="secundario" @click="salir">Cerrar sesión</button>
+      </div>
     </div>
 
     <div class="tarjeta">

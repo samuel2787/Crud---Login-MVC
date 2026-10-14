@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ComisionController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +23,13 @@ Route::get('/auth/me', [AuthController::class, 'me']);
 // rutas protegidas: solo entra quien tenga sesión
 Route::middleware('auth')->group(function () {
     Route::get('/api/products', [ProductController::class, 'index']);
-    Route::post('/api/products', [ProductController::class, 'store']);
-    Route::put('/api/products/{product}', [ProductController::class, 'update']);
-    Route::delete('/api/products/{product}', [ProductController::class, 'destroy']);
+
+    Route::middleware('admin')->group(function () {
+        Route::post('/api/products', [ProductController::class, 'store']);
+        Route::put('/api/products/{product}', [ProductController::class, 'update']);
+        Route::delete('/api/products/{product}', [ProductController::class, 'destroy']);
+
+        Route::get('/api/comisiones/iniciales', [ComisionController::class, 'index']);
+        Route::post('/api/comisiones/calcular', [ComisionController::class, 'calcular']);
+    });
 });
